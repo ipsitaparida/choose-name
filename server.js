@@ -1,11 +1,19 @@
-import config,{ nodeEnv, logStars} from './config';
-import http from 'http';
+import express from 'express';
+import config from './config';
+import fs from 'fs';
 
-const server = http.createServer((req, res) => {
-    res.write('Hello \n');
-    setTimeout(() => {
-        res.write('I can stream!\n');
-        res.end();
-    }, 3000);
+const server = express()
+
+server.get("/", (req,res) => {
+    res.send('Hello')
 })
-server.listen(8080);
+
+server.get("/about.html", (req,res) => {
+    fs.readFile('./about.html', (err, data) => {
+        res.send(data.toString())
+    })
+})
+
+server.listen(config.port, () => {
+    console.info('Express listening on port ', config.port)
+});
