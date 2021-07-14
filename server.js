@@ -2,14 +2,17 @@ import express from 'express';
 import config from './config';
 import apiRouter from './api';
 
-const server = express()
+const server = express();
 
+server.set('view engine', 'ejs');
 server.get("/", (req,res) => {
-    res.send('Hello')
-})
-server.use(express.static('public'))
-server.use('/api', apiRouter)
+    res.render('index', {
+        content: "Hello Express and <em>EJS</em>"
+    });
+});
+server.use(express.static('public'));
+server.use('/api', apiRouter);
 
 server.listen(config.port, () => {
-    console.info('Express listening on port ', config.port)
+    console.info('Express listening on port ', config.port);
 });
