@@ -3,6 +3,12 @@ import React, { Component } from 'react';
 import Header from './Header';
 import ContestList from './ContentList';
 
+const pushState = (obj, url) => {
+    debugger;
+    window.history.pushState(obj, '', url);
+};
+    
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -18,11 +24,20 @@ class App extends Component {
         console.log("will mount");
     }
 
+    fetchContest = (contestId) => {
+        pushState(
+            {currentContestId: contestId},
+            `/contest/${contestId}`
+        );
+    };
+
     render() {
         return (
             <div className="App">
                 <Header message={this.state.pageHeader} />
-                <ContestList contests={this.state.contests} />
+                <ContestList 
+                    onContestClick={this.fetchContest}
+                    contests={this.state.contests} />
             </div>
         );
 
