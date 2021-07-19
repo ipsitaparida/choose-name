@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import Header from './Header';
 import ContestPreview from './ContestPreview';
+import data from '../testData.json';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pageHeader: 'Naming Contests'
+            pageHeader: 'Naming Contests',
+            contests: []
         };
     }
     componentDidMount() {
-        console.log("did mount");
+        this.setState({
+            contests: data.contests
+        });
     }
     componentWillUnmount() {
         console.log("will mount");
@@ -21,8 +25,8 @@ class App extends Component {
             <div className="App">
                 <Header message={this.state.pageHeader} />
                 <div>
-                    {this.props.contests.map(contest => 
-                        <ContestPreview {...contest} />
+                    {this.state.contests.map(contest => 
+                        <ContestPreview key={contest.id} {...contest} />
                     )}
                 </div>
             </div>
