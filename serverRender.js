@@ -1,8 +1,19 @@
 // fetch the data from api
-import axios from "axios";
-import config from './config'
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 
-axios.get(`${config.serverUrl}/api/contests`)
-.then(resp => {
-    console.log(resp.data)
-})
+import App from './src/components/App';
+
+import axios from "axios";
+import config from './config';
+
+
+const serverRender = () => 
+    axios.get(`${config.serverUrl}/api/contests`)
+    .then(resp => {
+        return ReactDOMServer.renderToString(
+            <App initialContest={resp.data.contests} />
+        );
+    });
+
+export default serverRender;
