@@ -11,6 +11,8 @@ server.use(sassMiddleware({
     dest:path.join(__dirname,'public')
 }));
 server.set('view engine', 'ejs');
+
+import './serverRender'
 server.get("/", (req,res) => {
     res.render('index', {
         content: "Hello Express and <em>EJS</em>"
@@ -19,6 +21,6 @@ server.get("/", (req,res) => {
 server.use(express.static('public'));
 server.use('/api', apiRouter);
 
-server.listen(config.port, () => {
+server.listen(config.port, config.host, () => {
     console.info('Express listening on port ', config.port);
 });
