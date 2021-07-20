@@ -4,6 +4,7 @@ import Header from './Header';
 import ContestList from './ContentList';
 import Contest from './Contest';
 import * as api from '../api';
+import PropTypes from 'prop-types';
 
 const pushState = (obj, url) => {
     debugger;
@@ -14,9 +15,7 @@ const pushState = (obj, url) => {
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            contests: this.props.initialContest
-        };
+        this.state = this.props.initialData;
     }
     componentDidMount() {
 
@@ -72,6 +71,10 @@ class App extends Component {
         );
 
     }
+}
+
+App.propTypes = {
+    initialData: PropTypes.object.isRequired
 }
 
 export default App;
