@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import ContestList from './ContentList';
 import Contest from './Contest';
+import * as api from '../api';
 
 const pushState = (obj, url) => {
     debugger;
@@ -14,7 +15,6 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pageHeader: 'Naming Contests',
             contests: this.props.initialContest
         };
     }
@@ -30,17 +30,32 @@ class App extends Component {
             { currentContestId: contestId },
             `/contest/${contestId}`
         );
-        // lookup the contest
-        // this.state.contests[contestId]
-        this.setState({
-            pageHeader: this.state.contests[contestId].contestName,
-            currentContestId: contestId
+        api.fetchContest(contestId).then(contest => {
+            this.setState({
+                currentContestId: contest.id,
+                contests: {
+                    ...this.state.contests,
+                    [contest.id]:contest
+                }
+            });
         });
     };
 
+    pageHeader() {
+        if(this.state.currentContestId) {
+            return this.currentContest().contestName;
+        }
+        return "Naming Contest";
+
+    }
+
+    currentContest() {
+        return this.state.contests[this.state.currentContestId]
+    }
+
     currentContent() {
         if(this.state.currentContestId) {
-            return <Contest {...this.state.contests[this.state.currentContestId]} />
+            return <Contest {...this.currentContest()} />
         }
 
         return <ContestList
@@ -51,7 +66,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header message={this.state.pageHeader} />
+                <Header message={this.pageHeader()} />
                 {this.currentContent()}
             </div>
         );
