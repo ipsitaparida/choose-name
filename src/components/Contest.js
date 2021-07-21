@@ -6,6 +6,7 @@ class Contest extends Component {
         return (
             <div className="Contest">
                 <div className="contest-description">
+                    {this.props.id} <br/>
                     {this.props.description}
                 </div>
                 <div className="home-link link" onClick={this.props.contestListClick}>

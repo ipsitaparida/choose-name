@@ -11,6 +11,10 @@ const pushState = (obj, url) => {
     window.history.pushState(obj, '', url);
 };
 
+const onPopState = handler => {
+    window.onpopstate = handler;
+}
+
 
 class App extends Component {
     constructor(props) {
@@ -18,10 +22,15 @@ class App extends Component {
         this.state = this.props.initialData;
     }
     componentDidMount() {
-
+        onPopState((event) => {
+            this.setState({
+                currentContestId: (event.state || {}).currentContestId
+            });
+            
+        });
     }
     componentWillUnmount() {
-        console.log("will mount");
+        onPopState(null);
     }
 
     fetchContest = (contestId) => {
